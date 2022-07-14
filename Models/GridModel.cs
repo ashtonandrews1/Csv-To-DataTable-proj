@@ -19,5 +19,6 @@
         public string Max { get; set; }
         public string Avg { get; set; }
         public string MostExpWindow { get; set; }
+        public string MostExpWindowSuffix { get; set; }
     }
 }

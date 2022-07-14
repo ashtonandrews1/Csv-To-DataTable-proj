@@ -72,7 +72,33 @@ namespace PortalProject.Controllers
             GridModel.Calculations.Min = GridModel.GridData.Min(x => Convert.ToDouble(x.Price.ToString(), CultureInfo.InvariantCulture)).ToString();
             GridModel.Calculations.Max = GridModel.GridData.Max(x => Convert.ToDouble(x.Price.ToString(), CultureInfo.InvariantCulture)).ToString();
             GridModel.Calculations.Avg = GridModel.GridData.Average(x => Convert.ToDouble(x.Price.ToString(), CultureInfo.InvariantCulture)).ToString();
-            //GridModel.Calculations.MostExpWindow = GridModel.GridData.Average(x => decimal.Parse(x.Price)).ToString();
+
+            TimeSpan MaxWindow = new TimeSpan();
+            double prevPriceForTimeSlot = 0;
+            foreach (var row in GridModel.GridData)
+            {
+                if (DateTime.TryParse(row.Date, out DateTime Temp))
+                {
+                    var timeSlot = Temp.TimeOfDay;
+                    double totalPriceForTimeSlot = 0;
+                    foreach (var item in GridModel.GridData.Where(x => DateTime.TryParse(x.Date, out DateTime Temp2) == true && DateTime.Parse(x.Date).TimeOfDay == timeSlot))
+                    {
+                        totalPriceForTimeSlot += Convert.ToDouble(item.Price.ToString(), CultureInfo.InvariantCulture);
+                    }
+                    if (totalPriceForTimeSlot > prevPriceForTimeSlot)
+                    {
+                        MaxWindow = timeSlot;
+                    }
+                    prevPriceForTimeSlot = totalPriceForTimeSlot;
+                }
+            }
+            GridModel.Calculations.MostExpWindow = MaxWindow.ToString();
+
+            TimeSpan time = TimeSpan.FromHours(1);
+            TimeSpan suffix = MaxWindow.Add(time);
+            if (suffix.Days == 1)
+                suffix = suffix.Subtract(TimeSpan.FromDays(1));
+            GridModel.Calculations.MostExpWindowSuffix = suffix.ToString();
         }
     }
 }

@@ -35,21 +35,47 @@
         </tbody>
     </table>
 
-    <div class="accordion-body">
-        <div class="accordion-item" id="minimumVal">
-            @Model.Calculations.Min
+    <br />
+    <br />
+
+    <div class="block-border">
+        <h2 class="header-break" style="font-family:sans-serif">Calculation Results</h2>
+        <div class="container block col-lg-8">
+            <div class="container col-lg-4">
+                <h6>Minimum Price value :</h6>
+            </div>
+            <div class="container col-lg-4" style="align-content:stretch">
+                <p>@Model.Calculations.Min</p>
+            </div>
         </div>
-        <div class="accordion-item" id="maximumVal">
-            @Model.Calculations.Max
+
+        <div class="container block col-lg-8">
+            <div class="container col-lg-4">
+                <h6>Maximum Price value :</h6>
+            </div>
+            <div class="container col-lg-4" style="align-content:stretch">
+                <p>@Model.Calculations.Max</p>
+            </div>
         </div>
-        <div class="accordion-item" id="avgVal">
-            @Model.Calculations.Avg
+
+        <div class="container block col-lg-8">
+            <div class="container col-lg-4">
+                <h6>Average Price value :</h6>
+            </div>
+            <div class="container col-lg-4" style="align-content:stretch">
+                <p>@Model.Calculations.Avg</p>
+            </div>
         </div>
-        <div class="accordion-item">
-            @*@Model.Calculations.MostExpWindow*@
+
+        <div class="container block col-lg-8">
+            <div class="container col-lg-4">
+                <h6> Most expensive Hour Window :</h6>
+            </div>
+            <div class="container col-lg-4" style="align-content:stretch">
+                <p>@Model.Calculations.MostExpWindow - @Model.Calculations.MostExpWindowSuffix</p>
+            </div>
         </div>
     </div>
-  
 }
 <br />
 
@@ -59,3 +85,22 @@
         var table = $('#tblGrid').DataTable();
     });
 </script>
+
+<style>
+    .block {
+        display: flex;
+    }
+
+    .block-border{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+        padding: 5px;
+        text-align: center;
+    }
+
+    .header-break{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+        padding: 5px;
+        text-align: center;
+    }
+</style>
