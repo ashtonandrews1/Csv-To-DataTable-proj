@@ -1,29 +1,61 @@
-﻿@model IEnumerable<MarketItem>
+﻿@model GridModelList
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "CSV to Grid";
+    ViewData["Title"] = "Upload Page";
 }
-
-<form asp-controller="File" asp-action="Index" method="post" enctype="multipart/form-data">
-<input type="file" name="file" />    
-<hr />
-<button type="submit">Upload</button>
+<form asp-controller="File" asp-action="SetGridData" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <hr />
+    <button id="uploadBtn" type="submit">Upload</button>
 </form>
-
-@if(Model.Count() > 0)
-{
 <hr />
-    <table cellpadding="0" cellspacing="0" border="1">
-        <tr>
-            <td> Date </td>
-            <td> Price </td>
-        </tr>
-        @foreach (MarketItem item in Model)
+
+@if (Model.GridData != null)
+{
+    <table id="tblGrid">
+        <thead>
+            <tr>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in @Model.GridData)
             {
                 <tr>
-                    <td> @item.DateString </td>
-                    <td> @item.PriceString </td>
+                    <td>@data.Price </td>
+                    <td>@data.Date </td>
                 </tr>
             }
+        </tbody>
     </table>
+
+    <div class="accordion-body">
+        <div class="accordion-item" id="minimumVal">
+            @Model.Calculations.Min
+        </div>
+        <div class="accordion-item" id="maximumVal">
+            @Model.Calculations.Max
+        </div>
+        <div class="accordion-item" id="avgVal">
+            @Model.Calculations.Avg
+        </div>
+        <div class="accordion-item">
+            @*@Model.Calculations.MostExpWindow*@
+        </div>
+    </div>
+  
 }
+<br />
+
+<script>
+    $(document).ready(function() {
+        $.noConflict();
+        var table = $('#tblGrid').DataTable();
+    });
+</script>

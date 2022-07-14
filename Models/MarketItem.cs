@@ -1,8 +1,13 @@
-﻿namespace PortalProject.Models
+﻿using System.ComponentModel;
+
+namespace PortalProject.Models
 {
     public class MarketItem
     {
-        public string? DateString { get; set; }
-        public string? PriceString { get; set; }
+        [DisplayName("Date")]
+        public DateTime? Date { get; set; }
+
+        [DisplayName("Price")]
+        public string? Price { get; set; }
     }
 }
